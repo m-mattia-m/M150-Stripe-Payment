@@ -1,0 +1,102 @@
+basePath: /api/v1
+definitions:
+  main.CreditCard:
+    properties:
+      cardnumber:
+        type: string
+      cvc:
+        type: string
+      expire_month:
+        type: integer
+      expire_year:
+        type: integer
+    type: object
+  main.Customer:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      description:
+        type: string
+      email:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      post_cod:
+        type: string
+      province:
+        type: string
+      street:
+        type: string
+      street_nr:
+        type: string
+    type: object
+  main.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  main.PaymentRequest:
+    properties:
+      amount:
+        type: integer
+      credit_card:
+        $ref: '#/definitions/main.CreditCard'
+      currency:
+        type: string
+      customer:
+        $ref: '#/definitions/main.Customer'
+    type: object
+  main.SuccessPayment:
+    properties:
+      message:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: dev@mattiamueggler.ch
+    name: API Support
+  description: this is an stripe payment example
+  title: Stripe Payment Sample
+  version: "1.0"
+paths:
+  /pay:
+    post:
+      consumes:
+      - application/json
+      description: Return specific customer
+      parameters:
+      - description: PaymentRequest
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/main.PaymentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.SuccessPayment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.Error'
+      security:
+      - Bearer: []
+      tags:
+      - Customer
+swagger: "2.0"

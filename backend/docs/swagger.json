@@ -1,0 +1,159 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "this is an stripe payment example",
+        "title": "Stripe Payment Sample",
+        "contact": {
+            "name": "API Support",
+            "email": "dev@mattiamueggler.ch"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/v1",
+    "paths": {
+        "/pay": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Return specific customer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Customer"
+                ],
+                "parameters": [
+                    {
+                        "description": "PaymentRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.PaymentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.SuccessPayment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.CreditCard": {
+            "type": "object",
+            "properties": {
+                "cardnumber": {
+                    "type": "string"
+                },
+                "cvc": {
+                    "type": "string"
+                },
+                "expire_month": {
+                    "type": "integer"
+                },
+                "expire_year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "main.Customer": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "post_cod": {
+                    "type": "string"
+                },
+                "province": {
+                    "type": "string"
+                },
+                "street": {
+                    "type": "string"
+                },
+                "street_nr": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.Error": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.PaymentRequest": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "credit_card": {
+                    "$ref": "#/definitions/main.CreditCard"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "customer": {
+                    "$ref": "#/definitions/main.Customer"
+                }
+            }
+        },
+        "main.SuccessPayment": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
