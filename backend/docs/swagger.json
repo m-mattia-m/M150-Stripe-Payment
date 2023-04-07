@@ -12,14 +12,9 @@
     "host": "localhost:3000",
     "basePath": "/api/v1",
     "paths": {
-        "/pay": {
+        "/create-subscription": {
             "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Return specific customer",
+                "description": "Create a Subscription",
                 "consumes": [
                     "application/json"
                 ],
@@ -27,7 +22,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Customer"
+                    "Product"
                 ],
                 "parameters": [
                     {
@@ -45,6 +40,202 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/main.SuccessPayment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay": {
+            "post": {
+                "description": "Create a payment without customer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Payment"
+                ],
+                "parameters": [
+                    {
+                        "description": "PaymentRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.PaymentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.SuccessPayment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay-subscription": {
+            "post": {
+                "description": "Pay a Subscription",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Payment"
+                ],
+                "parameters": [
+                    {
+                        "description": "PaymentRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.PaymentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.SuccessPayment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/pay-with-customer": {
+            "post": {
+                "description": "Create a payment with customer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Payment"
+                ],
+                "parameters": [
+                    {
+                        "description": "PaymentRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.PaymentRequestWithCustomer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.SuccessPayment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "description": "List all products",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/stripe.Product"
+                            }
                         }
                     },
                     "400": {
@@ -142,8 +333,28 @@
                 "currency": {
                     "type": "string"
                 },
+                "product_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.PaymentRequestWithCustomer": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "credit_card": {
+                    "$ref": "#/definitions/main.CreditCard"
+                },
+                "currency": {
+                    "type": "string"
+                },
                 "customer": {
                     "$ref": "#/definitions/main.Customer"
+                },
+                "product_id": {
+                    "type": "string"
                 }
             }
         },
@@ -151,6 +362,1033 @@
             "type": "object",
             "properties": {
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "stripe.Currency": {
+            "type": "string",
+            "enum": [
+                "aed",
+                "afn",
+                "all",
+                "amd",
+                "ang",
+                "aoa",
+                "ars",
+                "aud",
+                "awg",
+                "azn",
+                "bam",
+                "bbd",
+                "bdt",
+                "bgn",
+                "bif",
+                "bmd",
+                "bnd",
+                "bob",
+                "brl",
+                "bsd",
+                "bwp",
+                "bzd",
+                "cad",
+                "cdf",
+                "chf",
+                "clp",
+                "cny",
+                "cop",
+                "crc",
+                "cve",
+                "czk",
+                "djf",
+                "dkk",
+                "dop",
+                "dzd",
+                "eek",
+                "egp",
+                "etb",
+                "eur",
+                "fjd",
+                "fkp",
+                "gbp",
+                "gel",
+                "gip",
+                "gmd",
+                "gnf",
+                "gtq",
+                "gyd",
+                "hkd",
+                "hnl",
+                "hrk",
+                "htg",
+                "huf",
+                "idr",
+                "ils",
+                "inr",
+                "isk",
+                "jmd",
+                "jpy",
+                "kes",
+                "kgs",
+                "khr",
+                "kmf",
+                "krw",
+                "kyd",
+                "kzt",
+                "lak",
+                "lbp",
+                "lkr",
+                "lrd",
+                "lsl",
+                "ltl",
+                "lvl",
+                "mad",
+                "mdl",
+                "mga",
+                "mkd",
+                "mnt",
+                "mop",
+                "mro",
+                "mur",
+                "mvr",
+                "mwk",
+                "mxn",
+                "myr",
+                "mzn",
+                "nad",
+                "ngn",
+                "nio",
+                "nok",
+                "npr",
+                "nzd",
+                "pab",
+                "pen",
+                "pgk",
+                "php",
+                "pkr",
+                "pln",
+                "pyg",
+                "qar",
+                "ron",
+                "rsd",
+                "rub",
+                "rwf",
+                "sar",
+                "sbd",
+                "scr",
+                "sek",
+                "sgd",
+                "shp",
+                "sll",
+                "sos",
+                "srd",
+                "std",
+                "svc",
+                "szl",
+                "thb",
+                "tjs",
+                "top",
+                "try",
+                "ttd",
+                "twd",
+                "tzs",
+                "uah",
+                "ugx",
+                "usd",
+                "uyu",
+                "uzs",
+                "vef",
+                "vnd",
+                "vuv",
+                "wst",
+                "xaf",
+                "xcd",
+                "xof",
+                "xpf",
+                "yer",
+                "zar",
+                "zmw"
+            ],
+            "x-enum-comments": {
+                "CurrencyAED": "United Arab Emirates Dirham",
+                "CurrencyAFN": "Afghan Afghani",
+                "CurrencyALL": "Albanian Lek",
+                "CurrencyAMD": "Armenian Dram",
+                "CurrencyANG": "Netherlands Antillean Gulden",
+                "CurrencyAOA": "Angolan Kwanza",
+                "CurrencyARS": "Argentine Peso",
+                "CurrencyAUD": "Australian Dollar",
+                "CurrencyAWG": "Aruban Florin",
+                "CurrencyAZN": "Azerbaijani Manat",
+                "CurrencyBAM": "Bosnia \u0026 Herzegovina Convertible Mark",
+                "CurrencyBBD": "Barbadian Dollar",
+                "CurrencyBDT": "Bangladeshi Taka",
+                "CurrencyBGN": "Bulgarian Lev",
+                "CurrencyBIF": "Burundian Franc",
+                "CurrencyBMD": "Bermudian Dollar",
+                "CurrencyBND": "Brunei Dollar",
+                "CurrencyBOB": "Bolivian Boliviano",
+                "CurrencyBRL": "Brazilian Real",
+                "CurrencyBSD": "Bahamian Dollar",
+                "CurrencyBWP": "Botswana Pula",
+                "CurrencyBZD": "Belize Dollar",
+                "CurrencyCAD": "Canadian Dollar",
+                "CurrencyCDF": "Congolese Franc",
+                "CurrencyCHF": "Swiss Franc",
+                "CurrencyCLP": "Chilean Peso",
+                "CurrencyCNY": "Chinese Renminbi Yuan",
+                "CurrencyCOP": "Colombian Peso",
+                "CurrencyCRC": "Costa Rican Colón",
+                "CurrencyCVE": "Cape Verdean Escudo",
+                "CurrencyCZK": "Czech Koruna",
+                "CurrencyDJF": "Djiboutian Franc",
+                "CurrencyDKK": "Danish Krone",
+                "CurrencyDOP": "Dominican Peso",
+                "CurrencyDZD": "Algerian Dinar",
+                "CurrencyEEK": "Estonian Kroon",
+                "CurrencyEGP": "Egyptian Pound",
+                "CurrencyETB": "Ethiopian Birr",
+                "CurrencyEUR": "Euro",
+                "CurrencyFJD": "Fijian Dollar",
+                "CurrencyFKP": "Falkland Islands Pound",
+                "CurrencyGBP": "British Pound",
+                "CurrencyGEL": "Georgian Lari",
+                "CurrencyGIP": "Gibraltar Pound",
+                "CurrencyGMD": "Gambian Dalasi",
+                "CurrencyGNF": "Guinean Franc",
+                "CurrencyGTQ": "Guatemalan Quetzal",
+                "CurrencyGYD": "Guyanese Dollar",
+                "CurrencyHKD": "Hong Kong Dollar",
+                "CurrencyHNL": "Honduran Lempira",
+                "CurrencyHRK": "Croatian Kuna",
+                "CurrencyHTG": "Haitian Gourde",
+                "CurrencyHUF": "Hungarian Forint",
+                "CurrencyIDR": "Indonesian Rupiah",
+                "CurrencyILS": "Israeli New Sheqel",
+                "CurrencyINR": "Indian Rupee",
+                "CurrencyISK": "Icelandic Króna",
+                "CurrencyJMD": "Jamaican Dollar",
+                "CurrencyJPY": "Japanese Yen",
+                "CurrencyKES": "Kenyan Shilling",
+                "CurrencyKGS": "Kyrgyzstani Som",
+                "CurrencyKHR": "Cambodian Riel",
+                "CurrencyKMF": "Comorian Franc",
+                "CurrencyKRW": "South Korean Won",
+                "CurrencyKYD": "Cayman Islands Dollar",
+                "CurrencyKZT": "Kazakhstani Tenge",
+                "CurrencyLAK": "Lao Kip",
+                "CurrencyLBP": "Lebanese Pound",
+                "CurrencyLKR": "Sri Lankan Rupee",
+                "CurrencyLRD": "Liberian Dollar",
+                "CurrencyLSL": "Lesotho Loti",
+                "CurrencyLTL": "Lithuanian Litas",
+                "CurrencyLVL": "Latvian Lats",
+                "CurrencyMAD": "Moroccan Dirham",
+                "CurrencyMDL": "Moldovan Leu",
+                "CurrencyMGA": "Malagasy Ariary",
+                "CurrencyMKD": "Macedonian Denar",
+                "CurrencyMNT": "Mongolian Tögrög",
+                "CurrencyMOP": "Macanese Pataca",
+                "CurrencyMRO": "Mauritanian Ouguiya",
+                "CurrencyMUR": "Mauritian Rupee",
+                "CurrencyMVR": "Maldivian Rufiyaa",
+                "CurrencyMWK": "Malawian Kwacha",
+                "CurrencyMXN": "Mexican Peso",
+                "CurrencyMYR": "Malaysian Ringgit",
+                "CurrencyMZN": "Mozambican Metical",
+                "CurrencyNAD": "Namibian Dollar",
+                "CurrencyNGN": "Nigerian Naira",
+                "CurrencyNIO": "Nicaraguan Córdoba",
+                "CurrencyNOK": "Norwegian Krone",
+                "CurrencyNPR": "Nepalese Rupee",
+                "CurrencyNZD": "New Zealand Dollar",
+                "CurrencyPAB": "Panamanian Balboa",
+                "CurrencyPEN": "Peruvian Nuevo Sol",
+                "CurrencyPGK": "Papua New Guinean Kina",
+                "CurrencyPHP": "Philippine Peso",
+                "CurrencyPKR": "Pakistani Rupee",
+                "CurrencyPLN": "Polish Złoty",
+                "CurrencyPYG": "Paraguayan Guaraní",
+                "CurrencyQAR": "Qatari Riyal",
+                "CurrencyRON": "Romanian Leu",
+                "CurrencyRSD": "Serbian Dinar",
+                "CurrencyRUB": "Russian Ruble",
+                "CurrencyRWF": "Rwandan Franc",
+                "CurrencySAR": "Saudi Riyal",
+                "CurrencySBD": "Solomon Islands Dollar",
+                "CurrencySCR": "Seychellois Rupee",
+                "CurrencySEK": "Swedish Krona",
+                "CurrencySGD": "Singapore Dollar",
+                "CurrencySHP": "Saint Helenian Pound",
+                "CurrencySLL": "Sierra Leonean Leone",
+                "CurrencySOS": "Somali Shilling",
+                "CurrencySRD": "Surinamese Dollar",
+                "CurrencySTD": "São Tomé and Príncipe Dobra",
+                "CurrencySVC": "Salvadoran Colón",
+                "CurrencySZL": "Swazi Lilangeni",
+                "CurrencyTHB": "Thai Baht",
+                "CurrencyTJS": "Tajikistani Somoni",
+                "CurrencyTOP": "Tongan Paʻanga",
+                "CurrencyTRY": "Turkish Lira",
+                "CurrencyTTD": "Trinidad and Tobago Dollar",
+                "CurrencyTWD": "New Taiwan Dollar",
+                "CurrencyTZS": "Tanzanian Shilling",
+                "CurrencyUAH": "Ukrainian Hryvnia",
+                "CurrencyUGX": "Ugandan Shilling",
+                "CurrencyUSD": "United States Dollar",
+                "CurrencyUYU": "Uruguayan Peso",
+                "CurrencyUZS": "Uzbekistani Som",
+                "CurrencyVEF": "Venezuelan Bolívar",
+                "CurrencyVND": "Vietnamese Đồng",
+                "CurrencyVUV": "Vanuatu Vatu",
+                "CurrencyWST": "Samoan Tala",
+                "CurrencyXAF": "Central African Cfa Franc",
+                "CurrencyXCD": "East Caribbean Dollar",
+                "CurrencyXOF": "West African Cfa Franc",
+                "CurrencyXPF": "Cfp Franc",
+                "CurrencyYER": "Yemeni Rial",
+                "CurrencyZAR": "South African Rand",
+                "CurrencyZMW": "Zambian Kwacha"
+            },
+            "x-enum-varnames": [
+                "CurrencyAED",
+                "CurrencyAFN",
+                "CurrencyALL",
+                "CurrencyAMD",
+                "CurrencyANG",
+                "CurrencyAOA",
+                "CurrencyARS",
+                "CurrencyAUD",
+                "CurrencyAWG",
+                "CurrencyAZN",
+                "CurrencyBAM",
+                "CurrencyBBD",
+                "CurrencyBDT",
+                "CurrencyBGN",
+                "CurrencyBIF",
+                "CurrencyBMD",
+                "CurrencyBND",
+                "CurrencyBOB",
+                "CurrencyBRL",
+                "CurrencyBSD",
+                "CurrencyBWP",
+                "CurrencyBZD",
+                "CurrencyCAD",
+                "CurrencyCDF",
+                "CurrencyCHF",
+                "CurrencyCLP",
+                "CurrencyCNY",
+                "CurrencyCOP",
+                "CurrencyCRC",
+                "CurrencyCVE",
+                "CurrencyCZK",
+                "CurrencyDJF",
+                "CurrencyDKK",
+                "CurrencyDOP",
+                "CurrencyDZD",
+                "CurrencyEEK",
+                "CurrencyEGP",
+                "CurrencyETB",
+                "CurrencyEUR",
+                "CurrencyFJD",
+                "CurrencyFKP",
+                "CurrencyGBP",
+                "CurrencyGEL",
+                "CurrencyGIP",
+                "CurrencyGMD",
+                "CurrencyGNF",
+                "CurrencyGTQ",
+                "CurrencyGYD",
+                "CurrencyHKD",
+                "CurrencyHNL",
+                "CurrencyHRK",
+                "CurrencyHTG",
+                "CurrencyHUF",
+                "CurrencyIDR",
+                "CurrencyILS",
+                "CurrencyINR",
+                "CurrencyISK",
+                "CurrencyJMD",
+                "CurrencyJPY",
+                "CurrencyKES",
+                "CurrencyKGS",
+                "CurrencyKHR",
+                "CurrencyKMF",
+                "CurrencyKRW",
+                "CurrencyKYD",
+                "CurrencyKZT",
+                "CurrencyLAK",
+                "CurrencyLBP",
+                "CurrencyLKR",
+                "CurrencyLRD",
+                "CurrencyLSL",
+                "CurrencyLTL",
+                "CurrencyLVL",
+                "CurrencyMAD",
+                "CurrencyMDL",
+                "CurrencyMGA",
+                "CurrencyMKD",
+                "CurrencyMNT",
+                "CurrencyMOP",
+                "CurrencyMRO",
+                "CurrencyMUR",
+                "CurrencyMVR",
+                "CurrencyMWK",
+                "CurrencyMXN",
+                "CurrencyMYR",
+                "CurrencyMZN",
+                "CurrencyNAD",
+                "CurrencyNGN",
+                "CurrencyNIO",
+                "CurrencyNOK",
+                "CurrencyNPR",
+                "CurrencyNZD",
+                "CurrencyPAB",
+                "CurrencyPEN",
+                "CurrencyPGK",
+                "CurrencyPHP",
+                "CurrencyPKR",
+                "CurrencyPLN",
+                "CurrencyPYG",
+                "CurrencyQAR",
+                "CurrencyRON",
+                "CurrencyRSD",
+                "CurrencyRUB",
+                "CurrencyRWF",
+                "CurrencySAR",
+                "CurrencySBD",
+                "CurrencySCR",
+                "CurrencySEK",
+                "CurrencySGD",
+                "CurrencySHP",
+                "CurrencySLL",
+                "CurrencySOS",
+                "CurrencySRD",
+                "CurrencySTD",
+                "CurrencySVC",
+                "CurrencySZL",
+                "CurrencyTHB",
+                "CurrencyTJS",
+                "CurrencyTOP",
+                "CurrencyTRY",
+                "CurrencyTTD",
+                "CurrencyTWD",
+                "CurrencyTZS",
+                "CurrencyUAH",
+                "CurrencyUGX",
+                "CurrencyUSD",
+                "CurrencyUYU",
+                "CurrencyUZS",
+                "CurrencyVEF",
+                "CurrencyVND",
+                "CurrencyVUV",
+                "CurrencyWST",
+                "CurrencyXAF",
+                "CurrencyXCD",
+                "CurrencyXOF",
+                "CurrencyXPF",
+                "CurrencyYER",
+                "CurrencyZAR",
+                "CurrencyZMW"
+            ]
+        },
+        "stripe.Price": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "description": "Whether the price can be used for new purchases.",
+                    "type": "boolean"
+                },
+                "billing_scheme": {
+                    "description": "Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceBillingScheme"
+                        }
+                    ]
+                },
+                "created": {
+                    "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
+                    "type": "integer"
+                },
+                "currency": {
+                    "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.Currency"
+                        }
+                    ]
+                },
+                "currency_options": {
+                    "description": "Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).",
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/stripe.PriceCurrencyOptions"
+                    }
+                },
+                "custom_unit_amount": {
+                    "description": "When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceCustomUnitAmount"
+                        }
+                    ]
+                },
+                "deleted": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "description": "Unique identifier for the object.",
+                    "type": "string"
+                },
+                "livemode": {
+                    "description": "Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.",
+                    "type": "boolean"
+                },
+                "lookup_key": {
+                    "description": "A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.",
+                    "type": "string"
+                },
+                "metadata": {
+                    "description": "Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "nickname": {
+                    "description": "A brief description of the price, hidden from customers.",
+                    "type": "string"
+                },
+                "object": {
+                    "description": "String representing the object's type. Objects of the same type share the same value.",
+                    "type": "string"
+                },
+                "product": {
+                    "description": "The ID of the product this price is associated with.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.Product"
+                        }
+                    ]
+                },
+                "recurring": {
+                    "description": "The recurring components of a price such as `interval` and `usage_type`.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceRecurring"
+                        }
+                    ]
+                },
+                "tax_behavior": {
+                    "description": "Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceTaxBehavior"
+                        }
+                    ]
+                },
+                "tiers": {
+                    "description": "Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/stripe.PriceTier"
+                    }
+                },
+                "tiers_mode": {
+                    "description": "Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price. In `graduated` tiering, pricing can change as the quantity grows.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceTiersMode"
+                        }
+                    ]
+                },
+                "transform_quantity": {
+                    "description": "Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with `tiers`.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceTransformQuantity"
+                        }
+                    ]
+                },
+                "type": {
+                    "description": "One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceType"
+                        }
+                    ]
+                },
+                "unit_amount": {
+                    "description": "The unit amount in %s to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.",
+                    "type": "integer"
+                },
+                "unit_amount_decimal": {
+                    "description": "The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.",
+                    "type": "string",
+                    "example": "0"
+                }
+            }
+        },
+        "stripe.PriceBillingScheme": {
+            "type": "string",
+            "enum": [
+                "per_unit",
+                "tiered"
+            ],
+            "x-enum-varnames": [
+                "PriceBillingSchemePerUnit",
+                "PriceBillingSchemeTiered"
+            ]
+        },
+        "stripe.PriceCurrencyOptions": {
+            "type": "object",
+            "properties": {
+                "custom_unit_amount": {
+                    "description": "When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceCurrencyOptionsCustomUnitAmount"
+                        }
+                    ]
+                },
+                "tax_behavior": {
+                    "description": "Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceCurrencyOptionsTaxBehavior"
+                        }
+                    ]
+                },
+                "tiers": {
+                    "description": "Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/stripe.PriceCurrencyOptionsTier"
+                    }
+                },
+                "unit_amount": {
+                    "description": "The unit amount in %s to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.",
+                    "type": "integer"
+                },
+                "unit_amount_decimal": {
+                    "description": "The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.",
+                    "type": "string",
+                    "example": "0"
+                }
+            }
+        },
+        "stripe.PriceCurrencyOptionsCustomUnitAmount": {
+            "type": "object",
+            "properties": {
+                "maximum": {
+                    "description": "The maximum unit amount the customer can specify for this item.",
+                    "type": "integer"
+                },
+                "minimum": {
+                    "description": "The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.",
+                    "type": "integer"
+                },
+                "preset": {
+                    "description": "The starting unit amount which can be updated by the customer.",
+                    "type": "integer"
+                }
+            }
+        },
+        "stripe.PriceCurrencyOptionsTaxBehavior": {
+            "type": "string",
+            "enum": [
+                "exclusive",
+                "inclusive",
+                "unspecified"
+            ],
+            "x-enum-varnames": [
+                "PriceCurrencyOptionsTaxBehaviorExclusive",
+                "PriceCurrencyOptionsTaxBehaviorInclusive",
+                "PriceCurrencyOptionsTaxBehaviorUnspecified"
+            ]
+        },
+        "stripe.PriceCurrencyOptionsTier": {
+            "type": "object",
+            "properties": {
+                "flat_amount": {
+                    "description": "Price for the entire tier.",
+                    "type": "integer"
+                },
+                "flat_amount_decimal": {
+                    "description": "Same as `flat_amount`, but contains a decimal value with at most 12 decimal places.",
+                    "type": "string",
+                    "example": "0"
+                },
+                "unit_amount": {
+                    "description": "Per unit price for units relevant to the tier.",
+                    "type": "integer"
+                },
+                "unit_amount_decimal": {
+                    "description": "Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.",
+                    "type": "string",
+                    "example": "0"
+                },
+                "up_to": {
+                    "description": "Up to and including to this quantity will be contained in the tier.",
+                    "type": "integer"
+                }
+            }
+        },
+        "stripe.PriceCustomUnitAmount": {
+            "type": "object",
+            "properties": {
+                "maximum": {
+                    "description": "The maximum unit amount the customer can specify for this item.",
+                    "type": "integer"
+                },
+                "minimum": {
+                    "description": "The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.",
+                    "type": "integer"
+                },
+                "preset": {
+                    "description": "The starting unit amount which can be updated by the customer.",
+                    "type": "integer"
+                }
+            }
+        },
+        "stripe.PriceRecurring": {
+            "type": "object",
+            "properties": {
+                "aggregate_usage": {
+                    "description": "Specifies a usage aggregation strategy for prices of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceRecurringAggregateUsage"
+                        }
+                    ]
+                },
+                "interval": {
+                    "description": "The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceRecurringInterval"
+                        }
+                    ]
+                },
+                "interval_count": {
+                    "description": "The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months.",
+                    "type": "integer"
+                },
+                "trial_period_days": {
+                    "description": "Default number of trial days when subscribing a customer to this price using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).",
+                    "type": "integer"
+                },
+                "usage_type": {
+                    "description": "Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceRecurringUsageType"
+                        }
+                    ]
+                }
+            }
+        },
+        "stripe.PriceRecurringAggregateUsage": {
+            "type": "string",
+            "enum": [
+                "last_during_period",
+                "last_ever",
+                "max",
+                "sum"
+            ],
+            "x-enum-varnames": [
+                "PriceRecurringAggregateUsageLastDuringPeriod",
+                "PriceRecurringAggregateUsageLastEver",
+                "PriceRecurringAggregateUsageMax",
+                "PriceRecurringAggregateUsageSum"
+            ]
+        },
+        "stripe.PriceRecurringInterval": {
+            "type": "string",
+            "enum": [
+                "day",
+                "month",
+                "week",
+                "year"
+            ],
+            "x-enum-varnames": [
+                "PriceRecurringIntervalDay",
+                "PriceRecurringIntervalMonth",
+                "PriceRecurringIntervalWeek",
+                "PriceRecurringIntervalYear"
+            ]
+        },
+        "stripe.PriceRecurringUsageType": {
+            "type": "string",
+            "enum": [
+                "licensed",
+                "metered"
+            ],
+            "x-enum-varnames": [
+                "PriceRecurringUsageTypeLicensed",
+                "PriceRecurringUsageTypeMetered"
+            ]
+        },
+        "stripe.PriceTaxBehavior": {
+            "type": "string",
+            "enum": [
+                "exclusive",
+                "inclusive",
+                "unspecified"
+            ],
+            "x-enum-varnames": [
+                "PriceTaxBehaviorExclusive",
+                "PriceTaxBehaviorInclusive",
+                "PriceTaxBehaviorUnspecified"
+            ]
+        },
+        "stripe.PriceTier": {
+            "type": "object",
+            "properties": {
+                "flat_amount": {
+                    "description": "Price for the entire tier.",
+                    "type": "integer"
+                },
+                "flat_amount_decimal": {
+                    "description": "Same as `flat_amount`, but contains a decimal value with at most 12 decimal places.",
+                    "type": "string",
+                    "example": "0"
+                },
+                "unit_amount": {
+                    "description": "Per unit price for units relevant to the tier.",
+                    "type": "integer"
+                },
+                "unit_amount_decimal": {
+                    "description": "Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.",
+                    "type": "string",
+                    "example": "0"
+                },
+                "up_to": {
+                    "description": "Up to and including to this quantity will be contained in the tier.",
+                    "type": "integer"
+                }
+            }
+        },
+        "stripe.PriceTiersMode": {
+            "type": "string",
+            "enum": [
+                "graduated",
+                "volume"
+            ],
+            "x-enum-varnames": [
+                "PriceTiersModeGraduated",
+                "PriceTiersModeVolume"
+            ]
+        },
+        "stripe.PriceTransformQuantity": {
+            "type": "object",
+            "properties": {
+                "divide_by": {
+                    "description": "Divide usage by this number.",
+                    "type": "integer"
+                },
+                "round": {
+                    "description": "After division, either round the result `up` or `down`.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.PriceTransformQuantityRound"
+                        }
+                    ]
+                }
+            }
+        },
+        "stripe.PriceTransformQuantityRound": {
+            "type": "string",
+            "enum": [
+                "down",
+                "up"
+            ],
+            "x-enum-varnames": [
+                "PriceTransformQuantityRoundDown",
+                "PriceTransformQuantityRoundUp"
+            ]
+        },
+        "stripe.PriceType": {
+            "type": "string",
+            "enum": [
+                "one_time",
+                "recurring"
+            ],
+            "x-enum-varnames": [
+                "PriceTypeOneTime",
+                "PriceTypeRecurring"
+            ]
+        },
+        "stripe.Product": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "description": "Whether the product is currently available for purchase.",
+                    "type": "boolean"
+                },
+                "attributes": {
+                    "description": "A list of up to 5 attributes that each SKU can provide values for (e.g., `[\"color\", \"size\"]`).",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "caption": {
+                    "description": "A short one-line description of the product, meant to be displayable to the customer. Only applicable to products of `type=good`.",
+                    "type": "string"
+                },
+                "created": {
+                    "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
+                    "type": "integer"
+                },
+                "deactivate_on": {
+                    "description": "An array of connect application identifiers that cannot purchase this product. Only applicable to products of `type=good`.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "default_price": {
+                    "description": "The ID of the [Price](https://stripe.com/docs/api/prices) object that is the default price for this product.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.Price"
+                        }
+                    ]
+                },
+                "deleted": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "description": "The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "Unique identifier for the object.",
+                    "type": "string"
+                },
+                "images": {
+                    "description": "A list of up to 8 URLs of images for this product, meant to be displayable to the customer.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "livemode": {
+                    "description": "Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.",
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "description": "Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "description": "The product's name, meant to be displayable to the customer.",
+                    "type": "string"
+                },
+                "object": {
+                    "description": "String representing the object's type. Objects of the same type share the same value.",
+                    "type": "string"
+                },
+                "package_dimensions": {
+                    "description": "The dimensions of this product for shipping purposes.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.ProductPackageDimensions"
+                        }
+                    ]
+                },
+                "shippable": {
+                    "description": "Whether this product is shipped (i.e., physical goods).",
+                    "type": "boolean"
+                },
+                "statement_descriptor": {
+                    "description": "Extra information about a product which will appear on your customer's credit card statement. In the case that multiple products are billed at once, the first statement descriptor will be used.",
+                    "type": "string"
+                },
+                "tax_code": {
+                    "description": "A [tax code](https://stripe.com/docs/tax/tax-categories) ID.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.TaxCode"
+                        }
+                    ]
+                },
+                "type": {
+                    "description": "The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/stripe.ProductType"
+                        }
+                    ]
+                },
+                "unit_label": {
+                    "description": "A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.",
+                    "type": "string"
+                },
+                "updated": {
+                    "description": "Time at which the object was last updated. Measured in seconds since the Unix epoch.",
+                    "type": "integer"
+                },
+                "url": {
+                    "description": "A URL of a publicly-accessible webpage for this product.",
+                    "type": "string"
+                }
+            }
+        },
+        "stripe.ProductPackageDimensions": {
+            "type": "object",
+            "properties": {
+                "height": {
+                    "description": "Height, in inches.",
+                    "type": "number"
+                },
+                "length": {
+                    "description": "Length, in inches.",
+                    "type": "number"
+                },
+                "weight": {
+                    "description": "Weight, in ounces.",
+                    "type": "number"
+                },
+                "width": {
+                    "description": "Width, in inches.",
+                    "type": "number"
+                }
+            }
+        },
+        "stripe.ProductType": {
+            "type": "string",
+            "enum": [
+                "good",
+                "service"
+            ],
+            "x-enum-varnames": [
+                "ProductTypeGood",
+                "ProductTypeService"
+            ]
+        },
+        "stripe.TaxCode": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "description": "A detailed description of which types of products the tax code represents.",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "Unique identifier for the object.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "A short name for the tax code.",
+                    "type": "string"
+                },
+                "object": {
+                    "description": "String representing the object's type. Objects of the same type share the same value.",
                     "type": "string"
                 }
             }

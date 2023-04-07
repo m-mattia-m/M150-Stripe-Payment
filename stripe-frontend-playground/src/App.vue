@@ -1,85 +1,177 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="pa-16 w-50">
+    <h1>Demo: Stripe-Playground</h1>
+    <h2>Customer</h2>
+    <div class="v-row pt-8">
+      <v-text-field
+          v-model="requestData.customer.firstname"
+          label="Firstname"
+          required
+      ></v-text-field>
+      <div class="pl-4"></div>
+      <v-text-field
+          v-model="requestData.customer.lastname"
+          label="Lastname"
+          required
+      ></v-text-field>
     </div>
-  </header>
-
-  <RouterView />
+    <div class="v-row pt-8">
+      <v-text-field
+          v-model="requestData.customer.street"
+          label="Street"
+          required
+      ></v-text-field>
+      <div class="pl-4"></div>
+      <v-text-field
+          v-model="requestData.customer.street_nr"
+          label="Number"
+          required
+      ></v-text-field>
+    </div>
+    <div class="v-row pt-8">
+      <v-text-field
+          v-model="requestData.customer.post_cod"
+          label="Post code"
+          required
+      ></v-text-field>
+      <div class="pl-4"></div>
+      <v-text-field
+          v-model="requestData.customer.city"
+          label="City"
+          required
+      ></v-text-field>
+    </div>
+    <div class="v-row pt-8">
+      <v-text-field
+          v-model="requestData.customer.province"
+          label="State"
+          required
+      ></v-text-field>
+      <div class="pl-4"></div>
+      <v-text-field
+          v-model="requestData.customer.country"
+          label="Country"
+          required
+      ></v-text-field>
+    </div>
+    <div class="v-row pt-8">
+      <v-text-field
+          v-model="requestData.customer.description"
+          label="Description"
+          required
+      ></v-text-field>
+      <div class="pl-4"></div>
+      <v-text-field
+          v-model="requestData.customer.email"
+          label="E-Mail"
+          required
+      ></v-text-field>
+    </div>
+    <div class="pl-8"></div>
+    <h2>Credit card</h2>
+    <div class="v-row pt-8">
+      <v-text-field
+          v-model="requestData.credit_card.cardnumber"
+          label="Card number"
+          required
+      ></v-text-field>
+      <div class="pl-4"></div>
+      <v-text-field
+          v-model="requestData.credit_card.cvc"
+          label="CVC"
+          required
+      ></v-text-field>
+    </div>
+    <div class="v-row pt-8">
+      <v-text-field
+          v-model="requestData.credit_card.expire_month"
+          label="Month"
+          required
+      ></v-text-field>
+      <div class="pl-4"></div>
+      <v-text-field
+          v-model="requestData.credit_card.expire_year"
+          label="Year"
+          required
+      ></v-text-field>
+    </div>
+    <div class="pl-8"></div>
+    <h2>Product</h2>
+    <div class="v-row pt-8">
+      <v-text-field
+          v-model="requestData.amount"
+          label="Amount"
+          required
+      ></v-text-field>
+      <div class="pl-4"></div>
+      <v-text-field
+          v-model="requestData.product_id"
+          label="Product"
+          disabled
+          required
+      ></v-text-field>
+    </div>
+    <div class="v-row pt-8">
+      <v-text-field
+          v-model="requestData.currency"
+          label="currency"
+          disabled
+          required
+      ></v-text-field>
+    </div>
+    <v-btn @click="submit">
+      Submit
+    </v-btn>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import {MainPaymentRequestWithCustomer, PaymentApi} from "./api";
+import {generateAxiosConfig} from "./helpers/axios-config";
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
+@Options({
+  components: {},
+})
+export default class App extends Vue {
+  api = new PaymentApi(generateAxiosConfig())
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+  requestData: MainPaymentRequestWithCustomer = {
+    amount: 100,
+    credit_card: {
+      cardnumber: "4242424242424242",
+      cvc: "123",
+      expire_month: 1,
+      expire_year: 2030
+    },
+    currency: "CHF",
+    customer: {
+      city: "Samplecity",
+      country: "Switzerland",
+      description: "John Doe Develop-Sample",
+      email: "john.doe@sapmle.com",
+      firstname: "John",
+      lastname: "Doe",
+      post_cod: "1234",
+      province: "SampleState",
+      street: "Samplestreet",
+      street_nr: "1"
+    },
+    product_id: "prod_NP1Y2WB3NQSJYA"
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+
+
+  async submit(){
+    const response = await this.api.payWithCustomerPost(this.requestData)
+    console.log(response)
   }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
 }
+</script>
+
+<style scoped lang="scss">
+
+
 </style>

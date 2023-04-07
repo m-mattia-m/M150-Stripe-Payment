@@ -6,13 +6,8 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/client"
-	"github.com/stripe/stripe-go/v74/paymentintent"
-	"github.com/stripe/stripe-go/v74/paymentmethod"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"log"
 	"net/http"
 	"os"
 	"stripe/docs"
@@ -33,7 +28,7 @@ func main() {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:5173"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Authorization", "Origin", "Content-Type", "Accept"},
 		ExposeHeaders:    []string{"Content-Length"},
@@ -41,42 +36,44 @@ func main() {
 	}))
 
 	docs.SwaggerInfo.BasePath = "/api/v1"
-	r.POST("/api/v1/pay", CreatePayment)
+	r.POST("/api/v1/pay-with-customer", CreatePaymentWithCustomer)
+	r.POST("/api/v1/pay", CreatePaymentWithoutCustomer)
+	r.POST("/api/v1/pay-subscription", PaySubscription)
+	r.POST("/api/v1/create-subscription", CreateSubscription)
+	r.GET("/api/v1/products", ListProducts)
 
 	r.GET("/api/v1/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.Run(":3000")
 }
 
-// CreatePayment 			godoc
-// @title           		GetCustomer
-// @description     		Return specific customer
-// @Tags 					Customer
-// @Router  				/pay [post]
-// @Accept 					json
-// @Produce					json
-// @Security				Bearer
-// @Param        			request    body     PaymentRequest  true  "PaymentRequest"
-// @Success      			200  {object} SuccessPayment
-// @Failure      			400  {object} Error
-// @Failure      			404  {object} Error
-// @Failure      			500  {object} Error
-func CreatePayment(c *gin.Context) {
-	var paymentRequest PaymentRequest
+// CreatePaymentWithCustomer 	godoc
+// @title           			CreatePaymentWithCustomer
+// @description     			Create a payment with customer
+// @Tags 						Payment
+// @Router  					/pay-with-customer [post]
+// @Accept 						json
+// @Produce						json
+// @Param        				request    body     PaymentRequestWithCustomer  true  "PaymentRequest"
+// @Success      				200  {object} SuccessPayment
+// @Failure      				400  {object} Error
+// @Failure      				404  {object} Error
+// @Failure      				500  {object} Error
+func CreatePaymentWithCustomer(c *gin.Context) {
+	var paymentRequest PaymentRequestWithCustomer
 	err := c.Bind(&paymentRequest)
 	if err != nil {
-		log.Fatal(err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+		return
 	}
 
 	client, err := NewStripeClient()
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	customer, err := client.CreateCustomer(
-		paymentRequest.Customer,
-	)
-	if err != nil {
-		log.Fatal(err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+		return
 	}
 
 	creditCard, err := client.CreateCreditCard(
@@ -86,94 +83,207 @@ func CreatePayment(c *gin.Context) {
 		paymentRequest.CreditCard.Cvc,
 	)
 	if err != nil {
-		log.Fatal(err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+		return
+	}
+
+	customer, err := client.CreateCustomer(
+		paymentRequest.Customer,
+	)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+		return
+	}
+
+	//response, err := client.AddDefaultPaymentMethodToCustomer(
+	//	customer.ID,
+	//	creditCard.ID,
+	//)
+	//_ = response
+	//if err != nil {
+	//	c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+	//		Message: fmt.Sprintf("%s", err),
+	//	})
+	//	return
+	//}
+
+	payment, err := client.CreatePayment(
+		paymentRequest.Amount,
+		paymentRequest.Currency,
+		creditCard.ID,
+		customer.ID,
+	)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, SuccessPayment{
+		Message: fmt.Sprintf("payment with id '%s' was successfully", payment.ID),
+	})
+}
+
+// CreatePaymentWithoutCustomer godoc
+// @title           			CreatePaymentWithoutCustomer
+// @description     			Create a payment without customer
+// @Tags 						Payment
+// @Router  					/pay [post]
+// @Accept 						json
+// @Produce						json
+// @Param        				request    body     PaymentRequest  true  "PaymentRequest"
+// @Success      				200  {object} SuccessPayment
+// @Failure      				400  {object} Error
+// @Failure      				404  {object} Error
+// @Failure      				500  {object} Error
+func CreatePaymentWithoutCustomer(c *gin.Context) {
+	var paymentRequest PaymentRequest
+	err := c.Bind(&paymentRequest)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+	}
+
+	client, err := NewStripeClient()
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+	}
+
+	creditCard, err := client.CreateCreditCard(
+		paymentRequest.CreditCard.CardNumber,
+		paymentRequest.CreditCard.ExpireMonth,
+		paymentRequest.CreditCard.ExpireYear,
+		paymentRequest.CreditCard.Cvc,
+	)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
 	}
 
 	payment, err := client.CreatePayment(
 		paymentRequest.Amount,
 		paymentRequest.Currency,
 		creditCard.ID,
+		"",
 	)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+	}
 
 	c.JSON(http.StatusOK, SuccessPayment{
-		Message: "payment was successfully",
+		Message: fmt.Sprintf("payment with id '%s' was successfully", payment.ID),
 	})
-	_ = customer
-	_ = creditCard
-	_ = payment
+}
+
+// PaySubscription				godoc
+// @title           			PaySubscription
+// @description     			Pay a Subscription
+// @Tags 						Payment
+// @Router  					/pay-subscription [post]
+// @Accept 						json
+// @Produce						json
+// @Param        				request    body     PaymentRequest  true  "PaymentRequest"
+// @Success      				200  {object} SuccessPayment
+// @Failure      				400  {object} Error
+// @Failure      				404  {object} Error
+// @Failure      				500  {object} Error
+func PaySubscription(c *gin.Context) {
 
 }
 
-type StripeConfig struct {
-	StripeClient client.API
-}
-
-func NewStripeClient() (StripeConfig, error) {
-	stripeSecretKey, err := getEnv("STRIPE_SECRET_KEY")
+// CreateSubscription			godoc
+// @title           			CreateSubscription
+// @description     			Create a Subscription
+// @Tags 						Product
+// @Router  					/create-subscription [post]
+// @Accept 						json
+// @Produce						json
+// @Param        				request    body     PaymentRequest  true  "PaymentRequest"
+// @Success      				200  {object} SuccessPayment
+// @Failure      				400  {object} Error
+// @Failure      				404  {object} Error
+// @Failure      				500  {object} Error
+func CreateSubscription(c *gin.Context) {
+	var paymentRequest PaymentRequestWithCustomer
+	err := c.Bind(&paymentRequest)
 	if err != nil {
-		return StripeConfig{}, err
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+		return
 	}
-	params := &stripe.ChargeParams{}
-	sc := &client.API{}
-	sc.Init(fmt.Sprintf("%s", stripeSecretKey), nil)
-	sc.Charges.Get("ch_3MWQSxEqHN3Vq4Xe1BKWhWAq", params)
-	stripe.Key = stripeSecretKey
 
-	return StripeConfig{StripeClient: *sc}, nil
+	client, err := NewStripeClient()
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+		return
+	}
+
+	customer, err := client.CreateCustomer(
+		paymentRequest.Customer,
+	)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+		return
+	}
+
+	payment, err := client.CreateSubscription(
+		customer.ID,
+		paymentRequest.ProductId,
+	)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
+	}
+
+	c.JSON(http.StatusOK, SuccessPayment{
+		Message: fmt.Sprintf("payment with id '%s' was successfully", payment.ID),
+	})
 }
 
-func (sc StripeConfig) CreateCustomer(customer Customer) (*stripe.Customer, error) {
-	params := &stripe.CustomerParams{
-		Address: &stripe.AddressParams{
-			City:       stripe.String(customer.City),
-			Country:    stripe.String(customer.Country),
-			Line1:      stripe.String(fmt.Sprintf("%s %s", customer.Street, customer.StreetNr)),
-			PostalCode: stripe.String(customer.PostCod),
-			State:      stripe.String(customer.Province),
-		},
-		Description: stripe.String(customer.Description),
-		Email:       stripe.String(customer.Email),
-		Name:        stripe.String(fmt.Sprintf("%s %s", customer.Firstname, customer.Lastname)),
+// ListProducts					godoc
+// @title           			ListProducts
+// @description     			List all products
+// @Tags 						Products
+// @Router  					/products [get]
+// @Accept 						json
+// @Produce						json
+// @Success      				200  {object} []stripe.Product
+// @Failure      				400  {object} Error
+// @Failure      				404  {object} Error
+// @Failure      				500  {object} Error
+func ListProducts(c *gin.Context) {
+	client, err := NewStripeClient()
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
 	}
 
-	stripeCustomer, err := sc.StripeClient.Customers.New(params)
+	products, err := client.ListProducts()
 	if err != nil {
-		return nil, err
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Error{
+			Message: fmt.Sprintf("%s", err),
+		})
 	}
-	return stripeCustomer, nil
-}
 
-func (sc StripeConfig) CreateCreditCard(cardNumber string, expMonth int64, expYear int64, cvc string) (*stripe.PaymentMethod, error) {
-	params := &stripe.PaymentMethodParams{
-		Type: stripe.String("card"),
-		Card: &stripe.PaymentMethodCardParams{
-			Number:   stripe.String(cardNumber),
-			ExpMonth: stripe.Int64(expMonth),
-			ExpYear:  stripe.Int64(expYear),
-			CVC:      stripe.String(cvc),
-		},
-	}
-	pm, err := paymentmethod.New(params)
-	if err != nil {
-		return nil, err
-	}
-	return pm, nil
-}
-
-func (sc StripeConfig) CreatePayment(amount int64, currency string, paymentMethodID string) (*stripe.PaymentIntent, error) {
-	params := &stripe.PaymentIntentParams{
-		Amount:   stripe.Int64(amount),
-		Currency: stripe.String(currency),
-		PaymentMethodTypes: []*string{
-			stripe.String("card"),
-		},
-		PaymentMethod: stripe.String(paymentMethodID),
-	}
-	pi, err := paymentintent.New(params)
-	if err != nil {
-		return nil, err
-	}
-	return pi, nil
+	c.JSON(http.StatusOK, products)
 }
 
 func getEnv(key string) (string, error) {
@@ -184,10 +294,18 @@ func getEnv(key string) (string, error) {
 	return env, nil
 }
 
+type PaymentRequestWithCustomer struct {
+	Currency   string     `json:"currency"`
+	Amount     int64      `json:"amount"`
+	ProductId  string     `json:"product_id"`
+	Customer   Customer   `json:"customer"`
+	CreditCard CreditCard `json:"credit_card"`
+}
+
 type PaymentRequest struct {
 	Currency   string     `json:"currency"`
 	Amount     int64      `json:"amount"`
-	Customer   Customer   `json:"customer"`
+	ProductId  string     `json:"product_id"`
 	CreditCard CreditCard `json:"credit_card"`
 }
 

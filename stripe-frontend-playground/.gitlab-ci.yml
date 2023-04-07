@@ -1,0 +1,86 @@
+stages:
+  - install
+  - test
+  - build
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+install:
+  stage: install
+  image: docker.io/node:18.12.1-alpine
+  script:
+    - npm ci
+  only: &only
+    - branches
+    - tags
+  tags: &tags
+    - saas-linux-small-amd64
+  interruptible: true
+
+typecheck:
+  stage: test
+  image: docker.io/node:18.12.1-alpine
+  script:
+    - npm run typecheck
+  only: *only
+  tags: *tags
+  interruptible: true
+
+build:
+  stage: build
+  image: docker.io/node:18.12.1-alpine
+  script:
+    - npm run build
+  artifacts:
+    name: build-$CI_COMMIT_SHORT_SHA
+    paths:
+      - dist/
+  variables:
+    # general
+    VITE_APP_URL: $VITE_APP_URL
+    VITE_API_URL: $VITE_API_URL
+    # zitadel
+    VITE_ZITADEL: $VITE_ZITADEL
+    VITE_ZITADEL_PROJECT_ID: $VITE_ZITADEL_PROJECT_ID
+    VITE_ZITADEL_ROLE_ISSUER: $VITE_ZITADEL_ROLE_ISSUER
+    # oidc
+    VITE_OIDC_AUTHORITY: $VITE_OIDC_AUTHORITY
+    VITE_OIDC_CLIENT_ID: $VITE_OIDC_CLIENT_ID
+    VITE_OIDC_CLIENT_SECRET: ""
+    VITE_OIDC_PROJECT_SCOPES: $VITE_OIDC_PROJECT_SCOPES
+  only: *only
+  tags: *tags
+
+docker:
+  stage: build
+  image: docker.io/docker:cli
+  services:
+    - name: docker.io/docker:dind
+      alias: docker
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -f .docker/Dockerfile -t $IMAGE -t $IMAGE_LATEST --build-arg CSP_DOMAINS=$CSP_DOMAINS .
+    - docker push $IMAGE
+    - docker push $IMAGE_LATEST
+    - docker logout $CI_REGISTRY
+  variables:
+    # docker
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    # image
+    IMAGE_URL: "$CI_REGISTRY_IMAGE/template-project-frontend"
+    IMAGE_TAG: "$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
+    IMAGE: "$IMAGE_URL:$IMAGE_TAG"
+    IMAGE_LATEST: "$IMAGE_URL:latest"
+    # nginx
+    CSP_DOMAINS: $CSP_DOMAINS
+  needs:
+    - build
+  cache: []
+  only: &deploy_from
+    - main
+  tags: *tags

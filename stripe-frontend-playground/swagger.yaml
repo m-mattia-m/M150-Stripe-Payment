@@ -70,145 +70,145 @@ definitions:
     type: object
   stripe.Currency:
     enum:
-    - aed
-    - afn
-    - all
-    - amd
-    - ang
-    - aoa
-    - ars
-    - aud
-    - awg
-    - azn
-    - bam
-    - bbd
-    - bdt
-    - bgn
-    - bif
-    - bmd
-    - bnd
-    - bob
-    - brl
-    - bsd
-    - bwp
-    - bzd
-    - cad
-    - cdf
-    - chf
-    - clp
-    - cny
-    - cop
-    - crc
-    - cve
-    - czk
-    - djf
-    - dkk
-    - dop
-    - dzd
-    - eek
-    - egp
-    - etb
-    - eur
-    - fjd
-    - fkp
-    - gbp
-    - gel
-    - gip
-    - gmd
-    - gnf
-    - gtq
-    - gyd
-    - hkd
-    - hnl
-    - hrk
-    - htg
-    - huf
-    - idr
-    - ils
-    - inr
-    - isk
-    - jmd
-    - jpy
-    - kes
-    - kgs
-    - khr
-    - kmf
-    - krw
-    - kyd
-    - kzt
-    - lak
-    - lbp
-    - lkr
-    - lrd
-    - lsl
-    - ltl
-    - lvl
-    - mad
-    - mdl
-    - mga
-    - mkd
-    - mnt
-    - mop
-    - mro
-    - mur
-    - mvr
-    - mwk
-    - mxn
-    - myr
-    - mzn
-    - nad
-    - ngn
-    - nio
-    - nok
-    - npr
-    - nzd
-    - pab
-    - pen
-    - pgk
-    - php
-    - pkr
-    - pln
-    - pyg
-    - qar
-    - ron
-    - rsd
-    - rub
-    - rwf
-    - sar
-    - sbd
-    - scr
-    - sek
-    - sgd
-    - shp
-    - sll
-    - sos
-    - srd
-    - std
-    - svc
-    - szl
-    - thb
-    - tjs
-    - top
-    - try
-    - ttd
-    - twd
-    - tzs
-    - uah
-    - ugx
-    - usd
-    - uyu
-    - uzs
-    - vef
-    - vnd
-    - vuv
-    - wst
-    - xaf
-    - xcd
-    - xof
-    - xpf
-    - yer
-    - zar
-    - zmw
+      - aed
+      - afn
+      - all
+      - amd
+      - ang
+      - aoa
+      - ars
+      - aud
+      - awg
+      - azn
+      - bam
+      - bbd
+      - bdt
+      - bgn
+      - bif
+      - bmd
+      - bnd
+      - bob
+      - brl
+      - bsd
+      - bwp
+      - bzd
+      - cad
+      - cdf
+      - chf
+      - clp
+      - cny
+      - cop
+      - crc
+      - cve
+      - czk
+      - djf
+      - dkk
+      - dop
+      - dzd
+      - eek
+      - egp
+      - etb
+      - eur
+      - fjd
+      - fkp
+      - gbp
+      - gel
+      - gip
+      - gmd
+      - gnf
+      - gtq
+      - gyd
+      - hkd
+      - hnl
+      - hrk
+      - htg
+      - huf
+      - idr
+      - ils
+      - inr
+      - isk
+      - jmd
+      - jpy
+      - kes
+      - kgs
+      - khr
+      - kmf
+      - krw
+      - kyd
+      - kzt
+      - lak
+      - lbp
+      - lkr
+      - lrd
+      - lsl
+      - ltl
+      - lvl
+      - mad
+      - mdl
+      - mga
+      - mkd
+      - mnt
+      - mop
+      - mro
+      - mur
+      - mvr
+      - mwk
+      - mxn
+      - myr
+      - mzn
+      - nad
+      - ngn
+      - nio
+      - nok
+      - npr
+      - nzd
+      - pab
+      - pen
+      - pgk
+      - php
+      - pkr
+      - pln
+      - pyg
+      - qar
+      - ron
+      - rsd
+      - rub
+      - rwf
+      - sar
+      - sbd
+      - scr
+      - sek
+      - sgd
+      - shp
+      - sll
+      - sos
+      - srd
+      - std
+      - svc
+      - szl
+      - thb
+      - tjs
+      - top
+      - try
+      - ttd
+      - twd
+      - tzs
+      - uah
+      - ugx
+      - usd
+      - uyu
+      - uzs
+      - vef
+      - vnd
+      - vuv
+      - wst
+      - xaf
+      - xcd
+      - xof
+      - xpf
+      - yer
+      - zar
+      - zmw
     type: string
     x-enum-comments:
       CurrencyAED: United Arab Emirates Dirham
@@ -351,145 +351,145 @@ definitions:
       CurrencyZAR: South African Rand
       CurrencyZMW: Zambian Kwacha
     x-enum-varnames:
-    - CurrencyAED
-    - CurrencyAFN
-    - CurrencyALL
-    - CurrencyAMD
-    - CurrencyANG
-    - CurrencyAOA
-    - CurrencyARS
-    - CurrencyAUD
-    - CurrencyAWG
-    - CurrencyAZN
-    - CurrencyBAM
-    - CurrencyBBD
-    - CurrencyBDT
-    - CurrencyBGN
-    - CurrencyBIF
-    - CurrencyBMD
-    - CurrencyBND
-    - CurrencyBOB
-    - CurrencyBRL
-    - CurrencyBSD
-    - CurrencyBWP
-    - CurrencyBZD
-    - CurrencyCAD
-    - CurrencyCDF
-    - CurrencyCHF
-    - CurrencyCLP
-    - CurrencyCNY
-    - CurrencyCOP
-    - CurrencyCRC
-    - CurrencyCVE
-    - CurrencyCZK
-    - CurrencyDJF
-    - CurrencyDKK
-    - CurrencyDOP
-    - CurrencyDZD
-    - CurrencyEEK
-    - CurrencyEGP
-    - CurrencyETB
-    - CurrencyEUR
-    - CurrencyFJD
-    - CurrencyFKP
-    - CurrencyGBP
-    - CurrencyGEL
-    - CurrencyGIP
-    - CurrencyGMD
-    - CurrencyGNF
-    - CurrencyGTQ
-    - CurrencyGYD
-    - CurrencyHKD
-    - CurrencyHNL
-    - CurrencyHRK
-    - CurrencyHTG
-    - CurrencyHUF
-    - CurrencyIDR
-    - CurrencyILS
-    - CurrencyINR
-    - CurrencyISK
-    - CurrencyJMD
-    - CurrencyJPY
-    - CurrencyKES
-    - CurrencyKGS
-    - CurrencyKHR
-    - CurrencyKMF
-    - CurrencyKRW
-    - CurrencyKYD
-    - CurrencyKZT
-    - CurrencyLAK
-    - CurrencyLBP
-    - CurrencyLKR
-    - CurrencyLRD
-    - CurrencyLSL
-    - CurrencyLTL
-    - CurrencyLVL
-    - CurrencyMAD
-    - CurrencyMDL
-    - CurrencyMGA
-    - CurrencyMKD
-    - CurrencyMNT
-    - CurrencyMOP
-    - CurrencyMRO
-    - CurrencyMUR
-    - CurrencyMVR
-    - CurrencyMWK
-    - CurrencyMXN
-    - CurrencyMYR
-    - CurrencyMZN
-    - CurrencyNAD
-    - CurrencyNGN
-    - CurrencyNIO
-    - CurrencyNOK
-    - CurrencyNPR
-    - CurrencyNZD
-    - CurrencyPAB
-    - CurrencyPEN
-    - CurrencyPGK
-    - CurrencyPHP
-    - CurrencyPKR
-    - CurrencyPLN
-    - CurrencyPYG
-    - CurrencyQAR
-    - CurrencyRON
-    - CurrencyRSD
-    - CurrencyRUB
-    - CurrencyRWF
-    - CurrencySAR
-    - CurrencySBD
-    - CurrencySCR
-    - CurrencySEK
-    - CurrencySGD
-    - CurrencySHP
-    - CurrencySLL
-    - CurrencySOS
-    - CurrencySRD
-    - CurrencySTD
-    - CurrencySVC
-    - CurrencySZL
-    - CurrencyTHB
-    - CurrencyTJS
-    - CurrencyTOP
-    - CurrencyTRY
-    - CurrencyTTD
-    - CurrencyTWD
-    - CurrencyTZS
-    - CurrencyUAH
-    - CurrencyUGX
-    - CurrencyUSD
-    - CurrencyUYU
-    - CurrencyUZS
-    - CurrencyVEF
-    - CurrencyVND
-    - CurrencyVUV
-    - CurrencyWST
-    - CurrencyXAF
-    - CurrencyXCD
-    - CurrencyXOF
-    - CurrencyXPF
-    - CurrencyYER
-    - CurrencyZAR
-    - CurrencyZMW
+      - CurrencyAED
+      - CurrencyAFN
+      - CurrencyALL
+      - CurrencyAMD
+      - CurrencyANG
+      - CurrencyAOA
+      - CurrencyARS
+      - CurrencyAUD
+      - CurrencyAWG
+      - CurrencyAZN
+      - CurrencyBAM
+      - CurrencyBBD
+      - CurrencyBDT
+      - CurrencyBGN
+      - CurrencyBIF
+      - CurrencyBMD
+      - CurrencyBND
+      - CurrencyBOB
+      - CurrencyBRL
+      - CurrencyBSD
+      - CurrencyBWP
+      - CurrencyBZD
+      - CurrencyCAD
+      - CurrencyCDF
+      - CurrencyCHF
+      - CurrencyCLP
+      - CurrencyCNY
+      - CurrencyCOP
+      - CurrencyCRC
+      - CurrencyCVE
+      - CurrencyCZK
+      - CurrencyDJF
+      - CurrencyDKK
+      - CurrencyDOP
+      - CurrencyDZD
+      - CurrencyEEK
+      - CurrencyEGP
+      - CurrencyETB
+      - CurrencyEUR
+      - CurrencyFJD
+      - CurrencyFKP
+      - CurrencyGBP
+      - CurrencyGEL
+      - CurrencyGIP
+      - CurrencyGMD
+      - CurrencyGNF
+      - CurrencyGTQ
+      - CurrencyGYD
+      - CurrencyHKD
+      - CurrencyHNL
+      - CurrencyHRK
+      - CurrencyHTG
+      - CurrencyHUF
+      - CurrencyIDR
+      - CurrencyILS
+      - CurrencyINR
+      - CurrencyISK
+      - CurrencyJMD
+      - CurrencyJPY
+      - CurrencyKES
+      - CurrencyKGS
+      - CurrencyKHR
+      - CurrencyKMF
+      - CurrencyKRW
+      - CurrencyKYD
+      - CurrencyKZT
+      - CurrencyLAK
+      - CurrencyLBP
+      - CurrencyLKR
+      - CurrencyLRD
+      - CurrencyLSL
+      - CurrencyLTL
+      - CurrencyLVL
+      - CurrencyMAD
+      - CurrencyMDL
+      - CurrencyMGA
+      - CurrencyMKD
+      - CurrencyMNT
+      - CurrencyMOP
+      - CurrencyMRO
+      - CurrencyMUR
+      - CurrencyMVR
+      - CurrencyMWK
+      - CurrencyMXN
+      - CurrencyMYR
+      - CurrencyMZN
+      - CurrencyNAD
+      - CurrencyNGN
+      - CurrencyNIO
+      - CurrencyNOK
+      - CurrencyNPR
+      - CurrencyNZD
+      - CurrencyPAB
+      - CurrencyPEN
+      - CurrencyPGK
+      - CurrencyPHP
+      - CurrencyPKR
+      - CurrencyPLN
+      - CurrencyPYG
+      - CurrencyQAR
+      - CurrencyRON
+      - CurrencyRSD
+      - CurrencyRUB
+      - CurrencyRWF
+      - CurrencySAR
+      - CurrencySBD
+      - CurrencySCR
+      - CurrencySEK
+      - CurrencySGD
+      - CurrencySHP
+      - CurrencySLL
+      - CurrencySOS
+      - CurrencySRD
+      - CurrencySTD
+      - CurrencySVC
+      - CurrencySZL
+      - CurrencyTHB
+      - CurrencyTJS
+      - CurrencyTOP
+      - CurrencyTRY
+      - CurrencyTTD
+      - CurrencyTWD
+      - CurrencyTZS
+      - CurrencyUAH
+      - CurrencyUGX
+      - CurrencyUSD
+      - CurrencyUYU
+      - CurrencyUZS
+      - CurrencyVEF
+      - CurrencyVND
+      - CurrencyVUV
+      - CurrencyWST
+      - CurrencyXAF
+      - CurrencyXCD
+      - CurrencyXOF
+      - CurrencyXPF
+      - CurrencyYER
+      - CurrencyZAR
+      - CurrencyZMW
   stripe.Price:
     properties:
       active:
@@ -497,7 +497,7 @@ definitions:
         type: boolean
       billing_scheme:
         allOf:
-        - $ref: '#/definitions/stripe.PriceBillingScheme'
+          - $ref: '#/definitions/stripe.PriceBillingScheme'
         description: Describes how to compute the price per period. Either `per_unit`
           or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount`
           or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices
@@ -511,7 +511,7 @@ definitions:
         type: integer
       currency:
         allOf:
-        - $ref: '#/definitions/stripe.Currency'
+          - $ref: '#/definitions/stripe.Currency'
         description: Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html),
           in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
       currency_options:
@@ -523,7 +523,7 @@ definitions:
         type: object
       custom_unit_amount:
         allOf:
-        - $ref: '#/definitions/stripe.PriceCustomUnitAmount'
+          - $ref: '#/definitions/stripe.PriceCustomUnitAmount'
         description: When set, provides configuration for the amount to be adjusted
           by the customer during Checkout Sessions and Payment Links.
       deleted:
@@ -555,15 +555,15 @@ definitions:
         type: string
       product:
         allOf:
-        - $ref: '#/definitions/stripe.Product'
+          - $ref: '#/definitions/stripe.Product'
         description: The ID of the product this price is associated with.
       recurring:
         allOf:
-        - $ref: '#/definitions/stripe.PriceRecurring'
+          - $ref: '#/definitions/stripe.PriceRecurring'
         description: The recurring components of a price such as `interval` and `usage_type`.
       tax_behavior:
         allOf:
-        - $ref: '#/definitions/stripe.PriceTaxBehavior'
+          - $ref: '#/definitions/stripe.PriceTaxBehavior'
         description: Specifies whether the price is considered inclusive of taxes
           or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
           Once specified as either `inclusive` or `exclusive`, it cannot be changed.
@@ -575,19 +575,19 @@ definitions:
         type: array
       tiers_mode:
         allOf:
-        - $ref: '#/definitions/stripe.PriceTiersMode'
+          - $ref: '#/definitions/stripe.PriceTiersMode'
         description: Defines if the tiering price should be `graduated` or `volume`
           based. In `volume`-based tiering, the maximum quantity within a period determines
           the per unit price. In `graduated` tiering, pricing can change as the quantity
           grows.
       transform_quantity:
         allOf:
-        - $ref: '#/definitions/stripe.PriceTransformQuantity'
+          - $ref: '#/definitions/stripe.PriceTransformQuantity'
         description: Apply a transformation to the reported usage or set quantity
           before computing the amount billed. Cannot be combined with `tiers`.
       type:
         allOf:
-        - $ref: '#/definitions/stripe.PriceType'
+          - $ref: '#/definitions/stripe.PriceType'
         description: One of `one_time` or `recurring` depending on whether the price
           is for a one-time purchase or a recurring (subscription) purchase.
       unit_amount:
@@ -602,22 +602,22 @@ definitions:
     type: object
   stripe.PriceBillingScheme:
     enum:
-    - per_unit
-    - tiered
+      - per_unit
+      - tiered
     type: string
     x-enum-varnames:
-    - PriceBillingSchemePerUnit
-    - PriceBillingSchemeTiered
+      - PriceBillingSchemePerUnit
+      - PriceBillingSchemeTiered
   stripe.PriceCurrencyOptions:
     properties:
       custom_unit_amount:
         allOf:
-        - $ref: '#/definitions/stripe.PriceCurrencyOptionsCustomUnitAmount'
+          - $ref: '#/definitions/stripe.PriceCurrencyOptionsCustomUnitAmount'
         description: When set, provides configuration for the amount to be adjusted
           by the customer during Checkout Sessions and Payment Links.
       tax_behavior:
         allOf:
-        - $ref: '#/definitions/stripe.PriceCurrencyOptionsTaxBehavior'
+          - $ref: '#/definitions/stripe.PriceCurrencyOptionsTaxBehavior'
         description: Specifies whether the price is considered inclusive of taxes
           or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
           Once specified as either `inclusive` or `exclusive`, it cannot be changed.
@@ -652,14 +652,14 @@ definitions:
     type: object
   stripe.PriceCurrencyOptionsTaxBehavior:
     enum:
-    - exclusive
-    - inclusive
-    - unspecified
+      - exclusive
+      - inclusive
+      - unspecified
     type: string
     x-enum-varnames:
-    - PriceCurrencyOptionsTaxBehaviorExclusive
-    - PriceCurrencyOptionsTaxBehaviorInclusive
-    - PriceCurrencyOptionsTaxBehaviorUnspecified
+      - PriceCurrencyOptionsTaxBehaviorExclusive
+      - PriceCurrencyOptionsTaxBehaviorInclusive
+      - PriceCurrencyOptionsTaxBehaviorUnspecified
   stripe.PriceCurrencyOptionsTier:
     properties:
       flat_amount:
@@ -700,7 +700,7 @@ definitions:
     properties:
       aggregate_usage:
         allOf:
-        - $ref: '#/definitions/stripe.PriceRecurringAggregateUsage'
+          - $ref: '#/definitions/stripe.PriceRecurringAggregateUsage'
         description: Specifies a usage aggregation strategy for prices of `usage_type=metered`.
           Allowed values are `sum` for summing up all usage during a period, `last_during_period`
           for using the last usage record reported within a period, `last_ever` for
@@ -709,7 +709,7 @@ definitions:
           to `sum`.
       interval:
         allOf:
-        - $ref: '#/definitions/stripe.PriceRecurringInterval'
+          - $ref: '#/definitions/stripe.PriceRecurringInterval'
         description: The frequency at which a subscription is billed. One of `day`,
           `week`, `month` or `year`.
       interval_count:
@@ -723,7 +723,7 @@ definitions:
         type: integer
       usage_type:
         allOf:
-        - $ref: '#/definitions/stripe.PriceRecurringUsageType'
+          - $ref: '#/definitions/stripe.PriceRecurringUsageType'
         description: Configures how the quantity per period should be determined.
           Can be either `metered` or `licensed`. `licensed` automatically bills the
           `quantity` set when adding it to a subscription. `metered` aggregates the
@@ -731,46 +731,46 @@ definitions:
     type: object
   stripe.PriceRecurringAggregateUsage:
     enum:
-    - last_during_period
-    - last_ever
-    - max
-    - sum
+      - last_during_period
+      - last_ever
+      - max
+      - sum
     type: string
     x-enum-varnames:
-    - PriceRecurringAggregateUsageLastDuringPeriod
-    - PriceRecurringAggregateUsageLastEver
-    - PriceRecurringAggregateUsageMax
-    - PriceRecurringAggregateUsageSum
+      - PriceRecurringAggregateUsageLastDuringPeriod
+      - PriceRecurringAggregateUsageLastEver
+      - PriceRecurringAggregateUsageMax
+      - PriceRecurringAggregateUsageSum
   stripe.PriceRecurringInterval:
     enum:
-    - day
-    - month
-    - week
-    - year
+      - day
+      - month
+      - week
+      - year
     type: string
     x-enum-varnames:
-    - PriceRecurringIntervalDay
-    - PriceRecurringIntervalMonth
-    - PriceRecurringIntervalWeek
-    - PriceRecurringIntervalYear
+      - PriceRecurringIntervalDay
+      - PriceRecurringIntervalMonth
+      - PriceRecurringIntervalWeek
+      - PriceRecurringIntervalYear
   stripe.PriceRecurringUsageType:
     enum:
-    - licensed
-    - metered
+      - licensed
+      - metered
     type: string
     x-enum-varnames:
-    - PriceRecurringUsageTypeLicensed
-    - PriceRecurringUsageTypeMetered
+      - PriceRecurringUsageTypeLicensed
+      - PriceRecurringUsageTypeMetered
   stripe.PriceTaxBehavior:
     enum:
-    - exclusive
-    - inclusive
-    - unspecified
+      - exclusive
+      - inclusive
+      - unspecified
     type: string
     x-enum-varnames:
-    - PriceTaxBehaviorExclusive
-    - PriceTaxBehaviorInclusive
-    - PriceTaxBehaviorUnspecified
+      - PriceTaxBehaviorExclusive
+      - PriceTaxBehaviorInclusive
+      - PriceTaxBehaviorUnspecified
   stripe.PriceTier:
     properties:
       flat_amount:
@@ -796,12 +796,12 @@ definitions:
     type: object
   stripe.PriceTiersMode:
     enum:
-    - graduated
-    - volume
+      - graduated
+      - volume
     type: string
     x-enum-varnames:
-    - PriceTiersModeGraduated
-    - PriceTiersModeVolume
+      - PriceTiersModeGraduated
+      - PriceTiersModeVolume
   stripe.PriceTransformQuantity:
     properties:
       divide_by:
@@ -809,25 +809,25 @@ definitions:
         type: integer
       round:
         allOf:
-        - $ref: '#/definitions/stripe.PriceTransformQuantityRound'
+          - $ref: '#/definitions/stripe.PriceTransformQuantityRound'
         description: After division, either round the result `up` or `down`.
     type: object
   stripe.PriceTransformQuantityRound:
     enum:
-    - down
-    - up
+      - down
+      - up
     type: string
     x-enum-varnames:
-    - PriceTransformQuantityRoundDown
-    - PriceTransformQuantityRoundUp
+      - PriceTransformQuantityRoundDown
+      - PriceTransformQuantityRoundUp
   stripe.PriceType:
     enum:
-    - one_time
-    - recurring
+      - one_time
+      - recurring
     type: string
     x-enum-varnames:
-    - PriceTypeOneTime
-    - PriceTypeRecurring
+      - PriceTypeOneTime
+      - PriceTypeRecurring
   stripe.Product:
     properties:
       active:
@@ -855,7 +855,7 @@ definitions:
         type: array
       default_price:
         allOf:
-        - $ref: '#/definitions/stripe.Price'
+          - $ref: '#/definitions/stripe.Price'
         description: The ID of the [Price](https://stripe.com/docs/api/prices) object
           that is the default price for this product.
       deleted:
@@ -894,7 +894,7 @@ definitions:
         type: string
       package_dimensions:
         allOf:
-        - $ref: '#/definitions/stripe.ProductPackageDimensions'
+          - $ref: '#/definitions/stripe.ProductPackageDimensions'
         description: The dimensions of this product for shipping purposes.
       shippable:
         description: Whether this product is shipped (i.e., physical goods).
@@ -906,11 +906,11 @@ definitions:
         type: string
       tax_code:
         allOf:
-        - $ref: '#/definitions/stripe.TaxCode'
+          - $ref: '#/definitions/stripe.TaxCode'
         description: A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
       type:
         allOf:
-        - $ref: '#/definitions/stripe.ProductType'
+          - $ref: '#/definitions/stripe.ProductType'
         description: The type of the product. The product is either of type `good`,
           which is eligible for use with Orders and SKUs, or `service`, which is eligible
           for use with Subscriptions and Plans.
@@ -944,12 +944,12 @@ definitions:
     type: object
   stripe.ProductType:
     enum:
-    - good
-    - service
+      - good
+      - service
     type: string
     x-enum-varnames:
-    - ProductTypeGood
-    - ProductTypeService
+      - ProductTypeGood
+      - ProductTypeService
   stripe.TaxCode:
     properties:
       description:
@@ -979,17 +979,17 @@ paths:
   /create-subscription:
     post:
       consumes:
-      - application/json
+        - application/json
       description: Create a Subscription
       parameters:
-      - description: PaymentRequest
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/main.PaymentRequest'
+        - description: PaymentRequest
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/main.PaymentRequest'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -1008,21 +1008,21 @@ paths:
           schema:
             $ref: '#/definitions/main.Error'
       tags:
-      - Product
+        - Product
   /pay:
     post:
       consumes:
-      - application/json
+        - application/json
       description: Create a payment without customer
       parameters:
-      - description: PaymentRequest
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/main.PaymentRequest'
+        - description: PaymentRequest
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/main.PaymentRequest'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -1041,21 +1041,21 @@ paths:
           schema:
             $ref: '#/definitions/main.Error'
       tags:
-      - Payment
+        - Payment
   /pay-subscription:
     post:
       consumes:
-      - application/json
+        - application/json
       description: Pay a Subscription
       parameters:
-      - description: PaymentRequest
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/main.PaymentRequest'
+        - description: PaymentRequest
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/main.PaymentRequest'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -1074,21 +1074,21 @@ paths:
           schema:
             $ref: '#/definitions/main.Error'
       tags:
-      - Payment
+        - Payment
   /pay-with-customer:
     post:
       consumes:
-      - application/json
+        - application/json
       description: Create a payment with customer
       parameters:
-      - description: PaymentRequest
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/main.PaymentRequestWithCustomer'
+        - description: PaymentRequest
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/main.PaymentRequestWithCustomer'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -1107,14 +1107,14 @@ paths:
           schema:
             $ref: '#/definitions/main.Error'
       tags:
-      - Payment
+        - Payment
   /products:
     get:
       consumes:
-      - application/json
+        - application/json
       description: List all products
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -1135,5 +1135,5 @@ paths:
           schema:
             $ref: '#/definitions/main.Error'
       tags:
-      - Products
+        - Products
 swagger: "2.0"
