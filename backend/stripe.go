@@ -113,6 +113,13 @@ func (sc StripeConfig) CreatePayment(amount int64, currency string, paymentMetho
 	if err != nil {
 		return nil, err
 	}
+
+	paramsConfirmation := &stripe.PaymentIntentConfirmParams{}
+	pi, err = paymentintent.Confirm(pi.ID, paramsConfirmation)
+	if err != nil {
+		return nil, err
+	}
+
 	return pi, nil
 }
 
